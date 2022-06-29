@@ -9,7 +9,7 @@ function loadData(string $path): Array{
 }
 //saves output to json file, returns number of bytes written and a filename
 function saveData($json,$path=false): string{
-    $path = ($path) ? $path : uniqid('pragmaout_');
+    $path = ($path) ? $path : uniqid('pragmaout_').".json";
     $file = fopen($path, "w");
     if(!$file) throw new Exception("Unable to open file $path\n");
     $txt = json_encode($json);
@@ -36,7 +36,7 @@ function traverse($tree,$list){
     return $tree; //we can safely return the tree because it will be discarded by recursive calls and read only by the top level call
 }
 
-$flags = getopt("t:l:",array("dry::"));
+$flags = getopt("t:l:o::",array("dry::"));
 
 if(!isset($flags['t'])||!isset($flags['l'])) die("File was not specified\n");
 
@@ -44,11 +44,18 @@ try{
     $tree = loadData($flags['t']);
     $list = loadData($flags['l']);
 }catch(Exception $e){
-    echo $e->getMessage();
-    die();
+    die($e->getMessage());
 }
 
-
-
-
-
+$result = traverse($tree,$list);
+if(isset($flags['dry'])){ //do not output the result to a file if --dry is specified
+    var_dump($result);
+}else{
+    $output_path = (isset($flags['o'])) ? $flags['o'] : false;
+    try{
+       $endmsg = saveData($result,$output_path);
+       exit($endmsg);
+    }catch(Exception $e){
+        die($e->getMessage());
+    }
+}
