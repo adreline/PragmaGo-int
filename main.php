@@ -7,7 +7,17 @@ function loadData(string $path): Array{
     fclose($file);
     return $json;
 }
-
+//saves output to json file, returns number of bytes written and a filename
+function saveData($json,$path=false): string{
+    $path = ($path) ? $path : uniqid('pragmaout_');
+    $file = fopen($path, "w");
+    if(!$file) throw new Exception("Unable to open file $path\n");
+    $txt = json_encode($json);
+    if(!$txt) throw new Exception("Failed to serialize the results\n");
+    $b = fwrite($file,$txt);
+    if(!$b) throw new Exception("Failed to write data to $path\n");
+    return "written $b bytes to $path";
+}
 //fetches category name by a given id
 function fetchNameById($hay,$id){
     foreach($hay as $cat){
@@ -37,6 +47,7 @@ try{
     echo $e->getMessage();
     die();
 }
+
 
 
 
