@@ -10,7 +10,16 @@ function fetchNameById($hay,$id){
     foreach($hay as $cat){
         if($cat->category_id == $id) return $cat->translations->pl_PL->name;
     }
-    return null;
+    return false;
+}
+function traverse($tree,$list){
+    foreach($tree as $key => $leaf){
+        $name = fetchNameById($list,$leaf->id);
+        $name = ($name) ? $name : "n/a";
+        echo $name;
+        echo "\n";
+        if(sizeof($leaf->children)>0) traverse($leaf->children,$list);
+    }
 }
 $flags = getopt("t:l:");
 if(!isset($flags['t'])||!isset($flags['l'])) die("File was not specified\n");
@@ -21,3 +30,4 @@ try{
     echo $e->getMessage();
     die();
 }
+traverse($tree,$list);
