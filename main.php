@@ -6,6 +6,12 @@ function loadData(string $path): Array{
     fclose($file);
     return $json;
 }
+function fetchNameById($hay,$id){
+    foreach($hay as $cat){
+        if($cat->category_id == $id) return $cat->translations->pl_PL->name;
+    }
+    return null;
+}
 $flags = getopt("t:l:");
 if(!isset($flags['t'])||!isset($flags['l'])) die("File was not specified\n");
 try{
