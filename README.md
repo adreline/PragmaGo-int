@@ -19,13 +19,14 @@ PHP 7.4.3
 
 ### Usage ###
 
-Test the code aganist an example data
+Test the code aganist an example data.
+Running:
 
 ```bash
 php main.php -t example_data/tree.json -l example_data/list.json
 ```
 
-Outputs
+Should output:
 
 ```bash
 written 2081 bytes to pragmaout_62bc716724a6a.json
@@ -33,7 +34,7 @@ written 2081 bytes to pragmaout_62bc716724a6a.json
 
 ### Options ###
 
-```
+```txt
 -t
     Required. Specify a path to a input tree file in a json format.
 -l
