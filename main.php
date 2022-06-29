@@ -16,7 +16,7 @@ function saveData($json,$path=false): string{
     if(!$txt) throw new Exception("Failed to serialize the results\n");
     $b = fwrite($file,$txt);
     if(!$b) throw new Exception("Failed to write data to $path\n");
-    return "written $b bytes to $path";
+    return "written $b bytes to $path\n";
 }
 //fetches category name by a given id
 function fetchNameById($hay,$id){
